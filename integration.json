@@ -1,0 +1,67 @@
+{
+  "data": {
+    "date": {
+      "created_at": "2025-02-19",
+      "updated_at": "2025-02-19"
+    },
+    "descriptions": {
+      "app_description": "This is an interval integration that retrieves data from Trello boards.",
+      "app_logo": "https://w7.pngwing.com/pngs/816/678/png-transparent-trello-3d-trello-logo-trello-logo-trello-3d-logo-trello-application-logo-social-media-3d-icon-thumbnail.png",
+      "app_name": "Trello Board Tracker",
+      "app_url": "URL to the application or service.",
+      "background_color": "#172b4d"
+    },
+    "integration_category": "Project Management",
+    "integration_type": "interval",
+    "is_active": true,
+    "output": [
+      {
+        "label": "trello_board",
+        "value": true
+      }
+    ],
+    "key_features": [
+      "Get notified on daily tasks",
+      "Get morning and evening updates on Trello cards",
+      "Get notified on upcoming deadlines",
+      "Get notified of the team's progress at the end of the day",
+      "Keep the team updated on the project's progress"
+    ],
+    "settings": [
+      {
+        "label": "When should the tracker run in the morning?",
+        "type": "dropdown",
+        "required": true,
+        "default": "1234567890"
+      },
+      {
+        "label": "When should the tracker run in the evening?",
+        "type": "dropdown",
+        "required": true,
+        "default": "Yes"
+      },
+      {
+        "label": "Provide Speed",
+        "type": "number",
+        "required": true,
+        "default": "1000"
+      },
+      {
+        "label": "Sensitivity Level",
+        "type": "dropdown",
+        "required": true,
+        "default": "Low",
+        "options": ["High", "Low"]
+      },
+      {
+        "label": "Alert Admin",
+        "type": "multi-checkbox",
+        "required": true,
+        "default": "Super-Admin",
+        "options": ["Super-Admin", "Admin", "Manager", "Developer"]
+      }
+    ],
+    "target_url": "URL for integration or service.",
+    "tick_url": "URL for integration or service."
+  }
+}

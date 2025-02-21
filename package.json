@@ -1,0 +1,28 @@
+{
+  "name": "telex-integration",
+  "version": "1.0.0",
+  "description": "A telex integration for gender inclusivity",
+  "license": "ISC",
+  "author": "Michelle Ndiangui",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test",
+    "start": "node index.ts",
+    "build": "tsc",
+    "dev": "nodemon index.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2"
+  }
+}
