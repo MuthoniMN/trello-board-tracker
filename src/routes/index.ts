@@ -35,7 +35,7 @@ router.post('/target', async(
     // get cards for all the boards
     let cards: TCard[][] = [];
     Promise.all(trackedBoards.map(async (board: TBoard) => {
-      const response = await fetch(`https://api.trello.com/1/boards/${board.id}/cards?key=${process.env.TRELLO_API_KEY}&token=${token}`);
+      const response = await fetch(`https://api.trello.com/1/boards/${board.id}/cards?fields=id,name,due,dateLastActivity&key=${process.env.TRELLO_API_KEY}&token=${token}`);
       const allBoardCards = await response.json();
 
       return allBoardCards as TCard[];
@@ -43,25 +43,22 @@ router.post('/target', async(
       console.log(resData);
       cards = [...resData];
 
-      console.log(cards);
-
       // categorize cards: due today, critical in-progess, unassigned
       const dueCards = [] as TCard[];
       const changedCards = [] as TCard[];
       cards?.map(c => c.map((card: TCard) => {
-        (new Date(card.dateLastActivity).toDateString() == today.toDateString()) 
+        console.log(card);
+        (new Date(card.dateLastActivity).getDate() >= today.setDate(today.getDate() - 3))
           ? changedCards.push(card) 
-          : new Date(card.due).toDateString() == today.toDateString() && dueCards.push(card);
+          : new Date(card.due).getDate() <= today.setDate(today.getDate() + 3);
       }));
 
-      console.log(changedCards);
-      console.log(dueCards);
 
       // send response back to telex channel
       const hour = today.getHours();
       const greeting = (hour>= 7 && hour < 12) ? "🌅Good morning, team🌞" : (hour >= 12 && hour < 17 ) ? "🌻Good afternoon, team☀️" : "🌘Good evening, team🌒";
 
-      const message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\n⏰Due Tasks: \n${dueCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\n✍🏼Updated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\nHave a great rest of your day!`;
+      const message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\n${dueCards.length > 0 && `⏰Due Tasks(within 3 days): \n${dueCards.map((card, index) => `${index + 1}. ${card.name}\n`)}`}\n\n✍🏼${changedCards.length > 0 && `Updated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}\n`)}`}\n\nHave a great rest of your day!`;
 
       const data = {
         message,
