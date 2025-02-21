@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { config  } from "../integration";
+import { TSetting, TBoard, TCard } from "../types/";
 
 const router = Router();
 
@@ -14,12 +15,74 @@ router.get('/trello/authorize', (req: any, res: any) => {
   res.redirect(`https://trello.com/1/authorize?key=${key}&scope=read&expiration=never&response_type=token`);
 });
 
-router.post('/target', (
+router.post('/target', async(
   req: any,
   res: any
 ) => {
-  const { channelId, return_url , settings } = req.body;
-  return res.json({ status: 202, description: "Data received successfully!" })
+  const { channel_id, return_url , settings } = req.body;
+  const token = settings.find((setting: TSetting) => setting.label == "Trello API Token").default;
+  const boards = settings.find((setting: TSetting) => setting.label == "Which Trello board would you like to track?").default.split(',');
+  const today = new Date();
+
+  try {
+    // retrieve all the user's boards
+    const response = await fetch(`https://api.trello.com/1/members/me/boards?organization=false&fields=id,name,desc&key=${process.env.TRELLO_API_KEY}&token=${token}`);
+    const allBoards = await response.json();
+
+    // filter boards that are to be tracked
+    const trackedBoards = allBoards.filter((board: TBoard) => boards.include(board.name));
+
+    // get cards for all the boards
+    const cards = trackedBoards.map(async (board: TBoard) => {
+      const response = await fetch(`https://api.trello.com/1/boards/${board.id}/cards?key=${process.env.TRELLO_API_KEY}&token=${token}`);
+      const allBoardCards = await response.json();
+
+      return allBoardCards;
+    });
+
+    // categorize cards: due today, critical in-progess, unassigned
+    const dueCards = [] as TCard[];
+    const changedCards = [] as TCard[];
+    cards.map((card: TCard) => {
+      (new Date(card.dateLastActivity).toDateString() == today.toDateString()) 
+        ? changedCards.push(card) 
+        : new Date(card.due).toDateString() == today.toDateString() && dueCards.push(card);
+    } );
+
+    // send response back to telex channel
+    const hour = today.getHours();
+    const greeting = (hour>= 7 && hour < 12) ? "Good morning, team" : (hour >= 12 && hour < 17 ) ? "Good afternoon, team" : "Good evening, team";
+
+    const message = `${greeting}\n\nHere's your Trello Board progress for the day:\nDue Tasks: \n${dueCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\nUpdated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\n`;
+
+    const data = {
+      message,
+      username: "Trello Board Tracker",
+      event_name: "Trello Board Tracking",
+      status: "success"
+    }
+
+    const res2 = await fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) });
+
+    if(!res2.ok) return res.json({ status: 500, description: "Failed to send notification" });
+
+    return res.json({ status: 202, description: "Data received successfully!" });
+    
+  } catch (error) {
+    console.error(error);
+
+    const data = {
+      message: "Failed to generate Trello Board progress report",
+      username: "Trello Board Tracker",
+      event_name: "Trello Board Tracking",
+      status: "error"
+    }
+
+    const res2 = await fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) });
+
+    return res.json({ status: 500, description: "Failed to run service!" });
+
+  }
 });
 
 export default router;
