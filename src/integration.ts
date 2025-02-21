@@ -47,7 +47,7 @@ export const config = {
         "description": "You can specify multiple boards.",
         "type": "multi-select",
         "required": true,
-        "default": ""
+        "default": "Telex Integration"
       }
     ],
     "target_url": "https://trello-board-tracker.onrender.com/target",
