@@ -19,7 +19,7 @@ router.post('/target', (
   return res.json({ status: 202, description: "Data received successfully!" })
 });
 
-router.post('/webhook', (req: any, res: any) => {
+router.post('/tick', (req: any, res: any) => {
 
 });
 

@@ -8,9 +8,9 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run test",
-    "start": "node index.ts",
+    "start": "node src/index.ts",
     "build": "tsc",
-    "dev": "nodemon index.ts"
+    "dev": "nodemon src/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",

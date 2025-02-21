@@ -8,7 +8,7 @@
       "app_description": "This is an interval integration that retrieves data from Trello boards.",
       "app_logo": "https://w7.pngwing.com/pngs/816/678/png-transparent-trello-3d-trello-logo-trello-logo-trello-3d-logo-trello-application-logo-social-media-3d-icon-thumbnail.png",
       "app_name": "Trello Board Tracker",
-      "app_url": "URL to the application or service.",
+      "app_url": "https://trello-board-tracker.onrender.com/",
       "background_color": "#172b4d"
     },
     "integration_category": "Project Management",
@@ -61,7 +61,7 @@
         "options": ["Super-Admin", "Admin", "Manager", "Developer"]
       }
     ],
-    "target_url": "URL for integration or service.",
-    "tick_url": "URL for integration or service."
+    "target_url": "https://trello-board-tracker.onrender.com/target",
+    "tick_url": "https://trello-board-tracker.onrender.com/tick"
   }
 }
