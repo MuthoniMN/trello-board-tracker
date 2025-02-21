@@ -39,9 +39,9 @@ router.post('/target', async(
       const allBoardCards = await response.json();
 
       return allBoardCards as TCard[];
-    })).then(data => {
-      console.log(data);
-      cards = [...data];
+    })).then(resData => {
+      console.log(resData);
+      cards = [...resData];
 
       console.log(cards);
 
@@ -70,13 +70,14 @@ router.post('/target', async(
         status: "success"
       }
 
-      const res2 = await fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) });
-
-      if(!res2.ok) return res.json({ status: 500, description: "Failed to send notification" });
+      fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) }).then(response => {
+      if(!response.ok) return res.json({ status: 500, description: "Failed to send notification" });
 
       return res.json({ status: 202, description: "Data received successfully!" });
       });
-    
+
+
+      });
     
   } catch (error) {
     console.error(error);
