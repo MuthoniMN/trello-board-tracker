@@ -22,7 +22,6 @@ router.post('/target', async(
   const { channel_id, return_url , settings } = req.body;
   const token = settings.find((setting: TSetting) => setting.label == "Trello API Token").default;
   const boards = settings.find((setting: TSetting) => setting.label == "Which Trello board would you like to track?").default.split(',');
-  console.log(boards);
   const today = new Date();
 
   try {
@@ -31,7 +30,7 @@ router.post('/target', async(
     const allBoards = await response.json();
 
     // filter boards that are to be tracked
-    const trackedBoards = allBoards.filter((board: TBoard) => boards.include(board.name));
+    const trackedBoards = allBoards.filter((board: TBoard) => boards.includes(board.name));
 
     // get cards for all the boards
     const cards = trackedBoards.map(async (board: TBoard) => {
