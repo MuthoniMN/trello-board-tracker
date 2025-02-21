@@ -4,7 +4,8 @@ import router from "./routes/";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: ['https://telex.im', 'https://trello.com'] }));
+app.use(express.static('public'));
 
 app.use('/', router);
 
