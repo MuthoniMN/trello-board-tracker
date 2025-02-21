@@ -33,11 +33,11 @@ router.post('/target', async(
     const trackedBoards = allBoards.filter((board: TBoard) => boards.includes(board.name));
 
     // get cards for all the boards
-    const cards = await trackedBoards.map(async (board: TBoard) => {
+    const cards = trackedBoards.map(async (board: TBoard) => {
       const response = await fetch(`https://api.trello.com/1/boards/${board.id}/cards?key=${process.env.TRELLO_API_KEY}&token=${token}`);
       const allBoardCards = await response.json();
 
-      return allBoardCards;
+      return await allBoardCards;
     });
     console.log(cards);
 
