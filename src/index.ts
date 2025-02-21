@@ -6,6 +6,8 @@ const app = express();
 
 app.use(cors({ origin: ['https://telex.im', 'https://trello.com'] }));
 app.use(express.static('public'));
+app.use(express.json());
+app.use(express.urlencoded());
 
 app.use('/', router);
 

@@ -18,11 +18,8 @@ router.post('/target', (
   req: any,
   res: any
 ) => {
+  const { channelId, return_url , settings } = req.body;
   return res.json({ status: 202, description: "Data received successfully!" })
-});
-
-router.post('/tick', (req: any, res: any) => {
-
 });
 
 export default router;
