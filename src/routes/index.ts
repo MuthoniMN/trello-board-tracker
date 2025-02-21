@@ -40,40 +40,43 @@ router.post('/target', async(
 
       return allBoardCards as TCard[];
     })).then(data => {
-      cards = data
-    });
-    console.log(cards);
+      console.log(data);
+      cards = [...data];
 
-    // categorize cards: due today, critical in-progess, unassigned
-    const dueCards = [] as TCard[];
-    const changedCards = [] as TCard[];
-    cards?.map((card: TCard) => {
-      (new Date(card.dateLastActivity).toDateString() == today.toDateString()) 
-        ? changedCards.push(card) 
-        : new Date(card.due).toDateString() == today.toDateString() && dueCards.push(card);
-    } );
+      console.log(cards);
 
-    console.log(changedCards);
-    console.log(dueCards);
+      // categorize cards: due today, critical in-progess, unassigned
+      const dueCards = [] as TCard[];
+      const changedCards = [] as TCard[];
+      cards?.map((card: TCard) => {
+        (new Date(card.dateLastActivity).toDateString() == today.toDateString()) 
+          ? changedCards.push(card) 
+          : new Date(card.due).toDateString() == today.toDateString() && dueCards.push(card);
+      } );
 
-    // send response back to telex channel
-    const hour = today.getHours();
-    const greeting = (hour>= 7 && hour < 12) ? "Good morning, team" : (hour >= 12 && hour < 17 ) ? "Good afternoon, team" : "Good evening, team";
+      console.log(changedCards);
+      console.log(dueCards);
 
-    const message = `${greeting}\n\nHere's your Trello Board progress for the day:\nDue Tasks: \n${dueCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\nUpdated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\n`;
+      // send response back to telex channel
+      const hour = today.getHours();
+      const greeting = (hour>= 7 && hour < 12) ? "🌅Good morning, team🌞" : (hour >= 12 && hour < 17 ) ? "🌻Good afternoon, team☀️" : "🌘Good evening, team🌒";
 
-    const data = {
-      message,
-      username: "Trello Board Tracker",
-      event_name: "Trello Board Tracking",
-      status: "success"
-    }
+      const message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\n⏰Due Tasks: \n${dueCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\n✍🏼Updated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}`)}\n\nHave a great rest of your day!`;
 
-    const res2 = await fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) });
+      const data = {
+        message,
+        username: "Trello Board Tracker",
+        event_name: "Trello Board Tracking",
+        status: "success"
+      }
 
-    if(!res2.ok) return res.json({ status: 500, description: "Failed to send notification" });
+      const res2 = await fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) });
 
-    return res.json({ status: 202, description: "Data received successfully!" });
+      if(!res2.ok) return res.json({ status: 500, description: "Failed to send notification" });
+
+      return res.json({ status: 202, description: "Data received successfully!" });
+      });
+    
     
   } catch (error) {
     console.error(error);
