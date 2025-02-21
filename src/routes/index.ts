@@ -7,7 +7,7 @@ router.get('/integration.json', (req: any,res: any) => {
   return res.json(config);
 });
 
-router.post('/trello/authorize', (req: any, res: any) => {
+router.get('/trello/authorize', (req: any, res: any) => {
   const { apiKey } = req.query;
   const key = process.env.TRELLO_API_KEY;
 
