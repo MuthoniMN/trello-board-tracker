@@ -33,7 +33,7 @@ router.post('/target', async(
     const trackedBoards = allBoards.filter((board: TBoard) => boards.includes(board.name));
 
     // get cards for all the boards
-    let cards: TCard[] = [];
+    let cards: TCard[][] = [];
     Promise.all(trackedBoards.map(async (board: TBoard) => {
       const response = await fetch(`https://api.trello.com/1/boards/${board.id}/cards?key=${process.env.TRELLO_API_KEY}&token=${token}`);
       const allBoardCards = await response.json();
@@ -48,11 +48,11 @@ router.post('/target', async(
       // categorize cards: due today, critical in-progess, unassigned
       const dueCards = [] as TCard[];
       const changedCards = [] as TCard[];
-      cards?.map((card: TCard) => {
+      cards?.map(c => c.map((card: TCard) => {
         (new Date(card.dateLastActivity).toDateString() == today.toDateString()) 
           ? changedCards.push(card) 
           : new Date(card.due).toDateString() == today.toDateString() && dueCards.push(card);
-      } );
+      }));
 
       console.log(changedCards);
       console.log(dueCards);
