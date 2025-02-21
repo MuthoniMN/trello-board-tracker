@@ -39,6 +39,7 @@ router.post('/target', async(
 
       return allBoardCards;
     });
+    console.log(cards);
 
     // categorize cards: due today, critical in-progess, unassigned
     const dueCards = [] as TCard[];
@@ -48,6 +49,9 @@ router.post('/target', async(
         ? changedCards.push(card) 
         : new Date(card.due).toDateString() == today.toDateString() && dueCards.push(card);
     } );
+
+    console.log(changedCards);
+    console.log(dueCards);
 
     // send response back to telex channel
     const hour = today.getHours();
