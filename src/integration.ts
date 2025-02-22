@@ -29,7 +29,7 @@ export const config = {
     ],
     "settings": [
       {
-        "label": "When should the tracker run?",
+        "label": "Interval",
         "type": "text",
         "description": "Provide your time in this format: minutes morning/evening * * *. For example, '30 8,17 * * *' runs at 8:30am and 5:30pm",
         "required": true,
