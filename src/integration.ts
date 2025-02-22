@@ -5,7 +5,7 @@ export const config = {
       "updated_at": "2025-02-19"
     },
     "descriptions": {
-      "app_description": "This is an interval integration that retrieves data from Trello boards every morning and at the end of the workday.",
+      "app_description": "This is an interval integration that retrieves data from Trello boards every morning and at the end of the workday. Generate a new token here: https://trello-board-tracker.onrender.com/trello/authorize then add it in your settings",
       "app_logo": "https://trello-board-tracker.onrender.com/logo.png",
       "app_name": "Trello Board Tracker",
       "app_url": "https://trello-board-tracker.onrender.com/",

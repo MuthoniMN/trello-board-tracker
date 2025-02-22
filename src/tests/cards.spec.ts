@@ -19,9 +19,9 @@ describe("getCards", () => {
     ];
 
     const mockCards: TCard[] = [
-      { id: "1", name: "Urgent Task", due: new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000).toISOString(), dateLastActivity: today.toISOString() },
-      { id: "2", name: "Old Task", due: null, dateLastActivity: new Date(today.getTime() - 5 * 24 * 60 * 60 * 1000).toISOString() },
-      { id: "3", name: "Recent Update", due: null, dateLastActivity: new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString() }
+      { id: "1", name: "Urgent Task", due: new Date(today.getTime() + 2 * 24 * 60 * 60 * 1000).toISOString(), dateLastActivity: today.toISOString(), closed: true },
+      { id: "2", name: "Old Task", due: null, dateLastActivity: new Date(today.getTime() - 5 * 24 * 60 * 60 * 1000).toISOString(), closed: false },
+      { id: "3", name: "Recent Update", due: null, dateLastActivity: new Date(today.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString(), closed: false }
     ];
     
     fetchMock.mockResponse(JSON.stringify(mockCards));
@@ -37,7 +37,7 @@ describe("getCards", () => {
     const mockBoards: TBoard[] = [{ id: "board-1", name: "Board A", desc: "Description A" }];
 
     const mockCards: TCard[] = [
-      { id: "1", name: "Old Task", due: null, dateLastActivity: new Date(new Date().getTime() - 10 * 24 * 60 * 60 * 1000).toISOString() }
+      { id: "1", name: "Old Task", due: null, dateLastActivity: new Date(new Date().getTime() - 10 * 24 * 60 * 60 * 1000).toISOString(), closed: false }
     ];
 
     fetchMock.mockResponse(JSON.stringify(mockCards));

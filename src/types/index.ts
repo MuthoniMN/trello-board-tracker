@@ -16,5 +16,6 @@ export type TCard = {
   id: string,
   name: string,
   due: string | null,
+  closed: boolean,
   dateLastActivity: string
 }

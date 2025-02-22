@@ -9,7 +9,7 @@ export default async function getCards(boards: TBoard[], token: string) {
     const boardCardsArray = await Promise.all(
       boards.map(async (board: TBoard) => {
         const response = await fetch(
-          `https://api.trello.com/1/boards/${board.id}/cards?fields=id,name,due,dateLastActivity&key=${process.env.TRELLO_API_KEY}&token=${token}`
+          `https://api.trello.com/1/boards/${board.id}/cards?fields=id,name,due,dateLastActivity,closed&key=${process.env.TRELLO_API_KEY}&token=${token}`
         );
         if (!response.ok) throw new Error(`Failed to fetch cards for board: ${board.id}`);
         return response.json() as Promise<TCard[]>;

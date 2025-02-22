@@ -18,22 +18,22 @@ describe("createMessage", () => {
   });
 
   it("should return a message with due tasks when dueCards are provided", () => {
-    const dueCards: TCard[] = [{ id: "1", name: "Urgent Task", due: "2025-02-25", dateLastActivity: "2025-02-20" }];
+    const dueCards: TCard[] = [{ id: "1", name: "Urgent Task", due: "2025-02-25", dateLastActivity: "2025-02-20", closed: false }];
     const message = createMessage(10, dueCards, []);
     expect(message).toContain("⏰ Due Tasks (within 3 days):");
     expect(message).toContain("1. Urgent Task");
   });
 
   it("should return a message with updated cards when changedCards are provided", () => {
-    const changedCards: TCard[] = [{ id: "2", name: "Updated Task", due: "", dateLastActivity: "2025-02-22" }];
+    const changedCards: TCard[] = [{ id: "2", name: "Updated Task", due: "", dateLastActivity: "2025-02-22", closed: true }];
     const message = createMessage(10, [], changedCards);
     expect(message).toContain("📝 Updated Cards: 💡");
     expect(message).toContain("1. Updated Task");
   });
 
   it("should return a message with both due and updated cards", () => {
-    const dueCards: TCard[] = [{ id: "1", name: "Urgent Task", due: "2025-02-25", dateLastActivity: "2025-02-20" }];
-    const changedCards: TCard[] = [{ id: "2", name: "Updated Task", due: "", dateLastActivity: "2025-02-22" }];
+    const dueCards: TCard[] = [{ id: "1", name: "Urgent Task", due: "2025-02-25", dateLastActivity: "2025-02-20", closed: false }];
+    const changedCards: TCard[] = [{ id: "2", name: "Updated Task", due: "", dateLastActivity: "2025-02-22", closed: true }];
     const message = createMessage(10, dueCards, changedCards);
     expect(message).toContain("⏰ Due Tasks (within 3 days):");
     expect(message).toContain("1. Urgent Task");
