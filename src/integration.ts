@@ -51,7 +51,7 @@ export const config = {
       }
     ],
     "target_url": "https://trello-board-tracker.onrender.com/target",
-    "tick_url": "https://trello-board-tracker.onrender.com/tick",
+    "tick_url": "https://trello-board-tracker.onrender.com/target",
     "auth_initiate_url": "https://trello-board-tracker.onrender.com/trello/authorize",
     "is_oauth": true
   }
