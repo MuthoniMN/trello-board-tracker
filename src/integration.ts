@@ -33,7 +33,7 @@ export const config = {
         "description": "Generate a new token from here: https://trello-board-tracker.onrender.com/trello/authorize",
         "type": "text",
         "required": true,
-        "default": process.env.TRELLO_API_KEY
+        "default": process.env.TRELLO_API_TOKEN
       },
       {
         "label": "Which Trello board would you like to track?",
