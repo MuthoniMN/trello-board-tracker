@@ -23,9 +23,7 @@ router.post('/tick', async(
   res: any
 ) => {
   const { settings } = req.body;
-  console.log(settings);
   const token = settings.find((setting: TSetting) => setting.label == "Trello API Token").default || process.env.TRELLO_API_TOKEN;
-  console.log(token);
   const boards = settings.find((setting: TSetting) => setting.label == "Which Trello board would you like to track?").default.split(',');
   const today = new Date();
 
