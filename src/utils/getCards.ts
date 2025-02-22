@@ -8,8 +8,6 @@ export default async function getCards(boards: TBoard[], token: string) {
     // Fetch cards for all boards in parallel
     const boardCardsArray = await Promise.all(
       boards.map(async (board: TBoard) => {
-        console.log(`https://api.trello.com/1/boards/${board.id}/cards?fields=id,name,due,dateLastActivity,closed&key=${process.env.TRELLO_API_KEY}&token=${token}`
-);
         const response = await fetch(
           `https://api.trello.com/1/boards/${board.id}/cards?fields=id,name,due,dateLastActivity,closed&key=${process.env.TRELLO_API_KEY}&token=${token}`
         );
