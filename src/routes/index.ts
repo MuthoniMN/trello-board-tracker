@@ -8,7 +8,7 @@ import createMessage from "../utils/createMessage";
 const router = Router();
 
 router.get('/integration.json', (req: any,res: any) => {
-  return res.json(config);
+  return res.json(config).status(202);
 });
 
 router.get('/trello/authorize', (req: any, res: any) => {

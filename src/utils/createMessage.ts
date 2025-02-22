@@ -7,8 +7,8 @@ export default function createMessage(hour: number, dueCards: TCard[], changedCa
 
     let message = "";
 
-    let dueString = dueCards.reduce((str, card, index) => str + `${index + 1}. ${card.name}\n\tStatus: ${card.closed ? '⛔ Closed': '✅ Open'}\n\t📅Due Date: ${card.due ? (new Date(card.due as string)).toString : "Not Set"} \n\n`, '');
-    let changeString = changedCards.reduce((str, card, index) => str + `${index + 1}. ${card.name}\nStatus: ${card.closed ? 'closed': 'open'}\nDue Date:${card.due || "Not Set"}\n`, '')
+    let dueString = dueCards.reduce((str, card, index) => str + `${index + 1}. ${card.name}\n\tStatus: ${card.closed ? '⛔ Closed': '✅ Open'}\n\t📅Due Date: ${card.due ? (new Date(card.due as string)).toString() : "Not Set"} \n\n`, '');
+    let changeString = changedCards.reduce((str, card, index) => str + `${index + 1}. ${card.name}\nStatus: ${card.closed ? '⛔ Closed': '✅ Open'}\n\t📅Due Date: ${card.due ? (new Date(card.due as string)).toString() : "Not Set"}\n`, '')
 
     if (dueCards.length > 0 && changedCards.length > 0) {
 
