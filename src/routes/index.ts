@@ -8,7 +8,7 @@ import createMessage from "../utils/createMessage";
 const router = Router();
 
 router.get('/integration.json', (req: any,res: any) => {
-  return res.status(202).json(config);
+  return res.json(config);
 });
 
 router.get('/trello/authorize', (req: any, res: any) => {
@@ -48,7 +48,7 @@ router.post('/target', async(
     fetch(`${process.env.TELEX_WEBHOOK}`, { method: 'POST', body: JSON.stringify(data) }).then(response => {
       if(!response.ok) return res.json({ status: 500, description: "Failed to send notification" });
 
-      return res.json({ status: 202, description: "Data received successfully!" });
+      return res.status(202).json({ status: 202, description: "Data received successfully!" });
     });
 
   } catch (error) {
