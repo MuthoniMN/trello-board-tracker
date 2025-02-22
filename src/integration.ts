@@ -14,6 +14,7 @@ export const config = {
     "integration_category": "Project Management",
     "integration_type": "interval",
     "is_active": true,
+    "author": "Michelle Ndiangui",
     "output": [
       {
         "label": "channel",
@@ -46,7 +47,7 @@ export const config = {
         "label": "interval",
         "type": "text",
         "required": true,
-        "default": "*/1 * * * *"
+        "default": "30 8,17 * * *"
       },
     ],
     "target_url": "",
