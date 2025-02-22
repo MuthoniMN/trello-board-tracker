@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import { config  } from "../integration";
 import { TSetting, TBoard, TCard } from "../types/";
 
@@ -19,7 +19,7 @@ router.post('/target', async(
   req: any,
   res: any
 ) => {
-  const { channel_id, return_url , settings } = req.body;
+  const { settings } = req.body;
   const token = settings.find((setting: TSetting) => setting.label == "Trello API Token").default;
   const boards = settings.find((setting: TSetting) => setting.label == "Which Trello board would you like to track?").default.split(',');
   const today = new Date();
@@ -44,8 +44,8 @@ router.post('/target', async(
       cards = [...resData];
 
       // categorize cards: due today, critical in-progess, unassigned
-      const dueCards = [] as TCard[];
-      const changedCards = [] as TCard[];
+      let dueCards = [] as TCard[];
+      let changedCards = [] as TCard[];
       cards?.map(c => c.map((card: TCard) => {
         console.log(card);
         (new Date(card.dateLastActivity).getDate() >= today.setDate(today.getDate() - 3))
@@ -56,9 +56,24 @@ router.post('/target', async(
 
       // send response back to telex channel
       const hour = today.getHours();
-      const greeting = (hour>= 7 && hour < 12) ? "🌅Good morning, team🌞" : (hour >= 12 && hour < 17 ) ? "🌻Good afternoon, team☀️" : "🌘Good evening, team🌒";
+      const greeting = (hour>= 7 && hour < 12) ? "🌅 Good morning, team 🌞" : (hour >= 12 && hour < 17 ) ? "🌻 Good afternoon, team ☀️" : "🌘 Good evening, team 🌒";
 
-      const message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\n${dueCards.length > 0 && `⏰Due Tasks(within 3 days): \n${dueCards.map((card, index) => `${index + 1}. ${card.name}\n`)}`}\n\n✍🏼${changedCards.length > 0 && `Updated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}\n`)}`}\n\nHave a great rest of your day!`;
+      let message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\n⏰Due Tasks(within 3 days): \n${dueCards.map((card, index) => `${index + 1}. ${card.name}\n`)}\n\nUpdated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}\n`)}\n\nHave a great rest of your day!`;
+
+      if(dueCards.length > 0 && changedCards.length > 0){
+
+        message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\n⏰Due Tasks(within 3 days): \n${dueCards.map((card, index) => `${index + 1}. ${card.name}\n`)}\n\nUpdated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}\n`)}\n\nHave a great rest of your day!`;
+
+      } else if(dueCards.length > 0) {
+
+          message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\n⏰Due Tasks(within 3 days): \n${dueCards.map((card, index) => `${index + 1}. ${card.name}\n`)}\n\nHave a great rest of your day!`;
+
+      } else if (changedCards.length > 0) {
+        message = `${greeting}\n\nHere's your Trello Board progress for the day:\n\nUpdated Cards: \n ${changedCards.map((card, index) => `${index + 1}. ${card.name}\n`)}\n\nHave a great rest of your day!`;
+
+      } else {
+        message = `${greeting}\n\nThere are no new updates on the Trello BoardHave a great rest of your day!`;
+      }
 
       const data = {
         message,
@@ -67,7 +82,7 @@ router.post('/target', async(
         status: "success"
       }
 
-      fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) }).then(response => {
+      fetch(`${process.env.TELEX_WEBHOOK}`, { method: 'POST', body: JSON.stringify(data) }).then(response => {
       if(!response.ok) return res.json({ status: 500, description: "Failed to send notification" });
 
       return res.json({ status: 202, description: "Data received successfully!" });
@@ -86,7 +101,7 @@ router.post('/target', async(
       status: "error"
     }
 
-    const res2 = await fetch(`${return_url}`, { method: 'POST', body: JSON.stringify(data) });
+    const res2 = await fetch(`${process.env.TELEX_WEBHOOK}`, { method: 'POST', body: JSON.stringify(data) });
 
     return res.json({ status: 500, description: "Failed to run service!" });
 
