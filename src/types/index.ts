@@ -15,6 +15,6 @@ export type TBoard = {
 export type TCard = {
   id: string,
   name: string,
-  due: string,
+  due: string | null,
   dateLastActivity: string
 }
