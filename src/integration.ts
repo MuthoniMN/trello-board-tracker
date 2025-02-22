@@ -29,13 +29,6 @@ export const config = {
     ],
     "settings": [
       {
-        "label": "interval",
-        "type": "text",
-        "description": "Provide your time in this format: minutes morning/evening * * *. For example, '30 8,17 * * *' runs at 8:30am and 5:30pm",
-        "required": true,
-        "default": "*/5 * * * *"
-      },
-      {
         "label": "Trello API Token",
         "description": "Generate a new token from here: https://trello-board-tracker.onrender.com/trello/authorize",
         "type": "text",
@@ -48,7 +41,13 @@ export const config = {
         "type": "multi-select",
         "required": true,
         "default": "Telex Integration"
-      }
+      },
+      {
+        "label": "interval",
+        "type": "text",
+        "required": true,
+        "default": "*/1 * * * *"
+      },
     ],
     "target_url": "",
     "tick_url": "https://trello-board-tracker.onrender.com/tick",
