@@ -47,7 +47,7 @@ export const config = {
         "label": "interval",
         "type": "text",
         "required": true,
-        "default": "30 8,17 * * *"
+        "default": "*/20 * * * *"
       },
     ],
     "target_url": "",
