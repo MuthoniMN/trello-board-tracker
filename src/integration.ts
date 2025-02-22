@@ -50,8 +50,8 @@ export const config = {
         "default": "Telex Integration"
       }
     ],
-    "target_url": "https://trello-board-tracker.onrender.com/target",
-    "tick_url": "https://trello-board-tracker.onrender.com/target",
+    "target_url": "",
+    "tick_url": "https://trello-board-tracker.onrender.com/tick",
     "auth_initiate_url": "https://trello-board-tracker.onrender.com/trello/authorize",
     "is_oauth": true
   }

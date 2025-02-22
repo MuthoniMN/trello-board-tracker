@@ -18,7 +18,7 @@ router.get('/trello/authorize', (req: any, res: any) => {
   res.redirect(`https://trello.com/1/authorize?key=${key}&scope=read&expiration=never&response_type=token`);
 });
 
-router.post('/target', async(
+router.post('/tick', async(
   req: any,
   res: any
 ) => {
